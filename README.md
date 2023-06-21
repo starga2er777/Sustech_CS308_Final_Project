@@ -1,4 +1,8 @@
-# DeepLab with PyTorch
+# Semantic Segmentation based on DeepLab-v2 with a ResNet-101 backbone
+
+Forked from [DeepLab with PyTorch](https://github.com/kazuto1011/deeplab-pytorch)
+
+
 
 This is an unofficial **PyTorch** implementation of **DeepLab v2** [[1](##references)] with a **ResNet-101** backbone. 
 * **COCO-Stuff** dataset [[2](##references)] and **PASCAL VOC** dataset [[3]()] are supported.
