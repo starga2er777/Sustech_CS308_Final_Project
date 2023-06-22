@@ -20,20 +20,33 @@ Semantic segmentation has been an active area of research in computer vision, an
 2. **U-Net**: U-net is used to solve simple problem segmentation of small samples. It follows the same basic principles as FCN. U-Net is an encoder-decoder architecture designed for biomedical image segmentation. It includes skip connections between the encoder and decoder, enabling the model to capture both high-level semantic information and fine-grained details. U-Net has been widely adopted and extended for various segmentation tasks.
 3. **DeepLab**: DeepLab introduced dilated convolutions to capture multi-scale contextual information. It employs atrous spatial pyramid pooling (ASPP) to aggregate information at different scales and uses a fully connected conditional random field (CRF) for refining the segmentation results.
 
-In this project, DeepLab-v2 model is selected for semantic segmentation. DeepLab model is different from previous ideas and has two features:
-
-- Due to the loss of position information and the high cost of multi-layer up and down sampling, the method to control the receptive field size is converted to Atrous conv.
-
-- Add CRF(conditional random field) to take advantage of the correlation information between pixels: adjacent pixels, or pixels with similar colors, are more likely to belong to the same class.
-
-Also, Deeplab v2 improves on v1 with the introduction of ASPP(Atrous Spatial Pyramid Pooling), as shown in the figure above. We noticed that Deeplab v1 did not fuse information between different layers after expanding the receptive field using porous convolution. ASPP layer is designed to fuse different levels of semantic information: porous convolution with different expansion rates is selected to process Feature maps. Due to different receptive fields, the information levels obtained are also different. ASPP layer concat these different levels of feature maps to carry out information fusion.
-
- 
-
 ## 3. Method
+For our project, DeepLab-v2 model with a ResNet-101 backbone is selected for semantic segmentation. And in this section, the advantages of Deeplab and corresponding improvements of Deeplab-v2 will be explained in detail.
+
+### 3.1 Advantages of DeepLab
+
+DeepLab model is proposed to handle three major problems of image segmentation using DCNN, which reflects three different features from previous ideas:
+- Due to the reduction of feature resolution, Atrous convolution with a higher sample rate is applied to substitude the last maxpooling of DCNN. Meanwhilehe feature map is restored to the original size by combining void convolution and bilinear interpolation. The sample figure is shown below.
+![](pics/conv.webp)
+- Due to the targets of various sizes, the feature map is convolved at multiple rates to enhance the receptive field.
+- Due to the invariance of DCNN, the segmentation boundary is imprecise. Therefore CRF(Conditional Random Field) is invoked to take advantage of the correlation information between pixels: adjacent pixels, or pixels with similar colors, are more likely to belong to the same class. The improvement of CRF can be shown in the figure below.
+![](pics/CRF.png)
 
 
+### 3.2 Improvements of DeepLab-v2
 
+**ResNet-101**: In DeepLab-v1, VGG16 acted as backbone, which has limited performance as the network grows deeper, or in other words, Degradation problem. This common problem generally means when the depth of the network increases, the accuracy of the network becomes saturated or even decreases, as the figure shown below. 
+![](pics/2056.png)
+Therefore, Residual Learning is invoked to solve the problem. Briefly speaking, the reason for Residual Learning is that learning residuals is easier than learning raw features directly. When the residual is 0, then the stack layer only does the identity mapping, at least the network performance will not deteriorate, in fact, the residual will not be 0, which will also make the stack layer learn new features based on the input features, so as to have better performance. Residual Learning uses a kind of trick called "short-circuit", as the figure shown below.
+![](pics/DL.png)
+The ResNet network is a reference to the VGG19 network, modified on its basis, and adds Residual Learning units through the short-circuit mechanism to increase the possible depth of network, as the figure shown below.
+![](pics/ResNet.png)
+We can compare the preformance of ResNet to common network, as the figure shown below. It can be seen that the common network is degraded as the depth increases, while ResNet solves the degradation problem well.
+![](pics/1834.webp)
+**ASPP**: Also, Deeplab v2 improves on v1 with the introduction of ASPP(Atrous Spatial Pyramid Pooling). We noticed that Deeplab v1 did not fuse information between different layers after expanding the receptive field using porous convolution. ASPP layer is designed to fuse different levels of semantic information: porous convolution with different expansion rates is selected to process Feature maps. Due to different receptive fields, the information levels obtained are also different. ASPP layer concat these different levels of feature maps to carry out information fusion.
+
+Specifically, in our project, ASPP-L with expansion rate {6, 12, 18, 24} is applied, and two more 1 * 1 convolution performs feature fusion after Atrous convolution, and finally obtains the final output result by adding units. The structure is described as the figure shown below.
+![](pics/ASPP.webp)
 ## 4. Experiments
 
 ### 4.1 Datasets 
