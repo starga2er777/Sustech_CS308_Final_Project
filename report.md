@@ -38,11 +38,47 @@ Also, Deeplab v2 improves on v1 with the introduction of ASPP(Atrous Spatial Pyr
 
 ### 4.1 Datasets 
 
+#### 4.1.1 PASCAL VOC 2012
+
+![pascal_voc_2012](pics/pascal_voc_2012.png)
+
+The [PASCAL VOC 2012 dataset](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/) is a benchmark dataset widely used in computer vision for semantic segmentation tasks. It consists of around 11,530 images, each annotated with pixel-level segmentation masks. The dataset covers 20 + 1(background) common object categories and provides a standardized evaluation protocol for measuring algorithm performance. Pascal VOC 2012 has played a significant role in advancing semantic segmentation research and model development.
+
+#### 4.1.2 COCO-Stuff
+
+![coco_stuff](pics/coco_stuff.png)
+
+The [**Common Objects in COntext-stuff** (COCO-stuff) dataset](https://github.com/nightrome/cocostuff#downloads) is a dataset for scene understanding tasks like semantic segmentation, object detection and image captioning. It is constructed by annotating the original COCO dataset, which originally annotated things while neglecting stuff annotations. There are 164k images in COCO-stuff dataset that span over 172 categories including 80 things, 91 stuff, and 1 unlabeled class.
+
+#### 4.1.3 GTA5 Dataset
+
+![gta5](pics/gta5.png)
+
+The GTA5 dataset contains 24966 synthetic images with pixel level semantic annotation. The images have been rendered using the open-world video game *Grand Theft Auto 5* and are all from the car perspective in the streets of American-style virtual cities. There are 19 semantic classes.
+
+#### 4.1.4 Self-labeled Pictures
+
+
+
 ### 4.2 Implementation
+
+#### 4.2.1 Data Preprocessing
+
+#### 4.2.2 Model Training
+
+
+
+
 
 ### 4.3 Metrics 
 
-#### 4.4 Experimental design & results
+Two major metric methods are adopted for model evaluation. In semantic segmentation, there are four categories of pixel-level prediction, respectfully true positive (TP), true negative (TN), false positive (FP) and false negative (FN):
+
+### 4.4 Experimental Design & Results
+
+#### 4.4.1 Experiment Design
+
+4.4.2 Result Analysis
 
 
 
@@ -56,9 +92,11 @@ Also, Deeplab v2 improves on v1 with the introduction of ASPP(Atrous Spatial Pyr
 
 ### Reference
 
-1. L.-C. Chen, G. Papandreou, I. Kokkinos, K. Murphy, A. L. Yuille. DeepLab: Semantic Image Segmentation with Deep Convolutional Nets, Atrous Convolution, and Fully Connected CRFs. *IEEE TPAMI*, 2018.
-2. H. Caesar, J. Uijlings, V. Ferrari. COCO-Stuff: Thing and Stuff Classes in Context. In *CVPR*, 2018.
-3. M. Everingham, L. Van Gool, C. K. I. Williams, J. Winn, A. Zisserman. The PASCAL Visual Object Classes (VOC) Challenge. *IJCV*, 2010.
+[1] L.-C. Chen, G. Papandreou, I. Kokkinos, K. Murphy, A. L. Yuille. DeepLab: Semantic Image Segmentation with Deep Convolutional Nets, Atrous Convolution, and Fully Connected CRFs. *IEEE TPAMI*, 2018.
+
+[2] H. Caesar, J. Uijlings, V. Ferrari. COCO-Stuff: Thing and Stuff Classes in Context. In *CVPR*, 2018.
+
+[3] M. Everingham, L. Van Gool, C. K. I. Williams, J. Winn, A. Zisserman. The PASCAL Visual Object Classes (VOC) Challenge. *IJCV*, 2010.
 
 
 
@@ -69,3 +107,4 @@ Yuhang Wang (12012208):
 Jianlin Li (12012221): 
 
 Zhangjie Chen (12012524):
+
