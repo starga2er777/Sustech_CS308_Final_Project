@@ -38,15 +38,17 @@ DeepLab model is proposed to handle three major problems of image segmentation u
 **ResNet-101**: In DeepLab-v1, VGG16 acted as backbone, which has limited performance as the network grows deeper, or in other words, Degradation problem. This common problem generally means when the depth of the network increases, the accuracy of the network becomes saturated or even decreases, as the figure shown below. 
 ![](pics/2056.png)
 Therefore, Residual Learning is invoked to solve the problem. Briefly speaking, the reason for Residual Learning is that learning residuals is easier than learning raw features directly. When the residual is 0, then the stack layer only does the identity mapping, at least the network performance will not deteriorate, in fact, the residual will not be 0, which will also make the stack layer learn new features based on the input features, so as to have better performance. Residual Learning uses a kind of trick called "short-circuit", as the figure shown below.
-![](pics/DL.png)
+<div align=center><img src="pics/DL.png" style="max-width: 60%; height: auto;" /></div>
 The ResNet network is a reference to the VGG19 network, modified on its basis, and adds Residual Learning units through the short-circuit mechanism to increase the possible depth of network, as the figure shown below.
-![](pics/ResNet.png)
+<div align=center><img src="pics/ResNet.png" style="max-width: 60%; height: auto;" /></div>
 We can compare the preformance of ResNet to common network, as the figure shown below. It can be seen that the common network is degraded as the depth increases, while ResNet solves the degradation problem well.
 ![](pics/1834.webp)
+
 **ASPP**: Also, Deeplab v2 improves on v1 with the introduction of ASPP(Atrous Spatial Pyramid Pooling). We noticed that Deeplab v1 did not fuse information between different layers after expanding the receptive field using porous convolution. ASPP layer is designed to fuse different levels of semantic information: porous convolution with different expansion rates is selected to process Feature maps. Due to different receptive fields, the information levels obtained are also different. ASPP layer concat these different levels of feature maps to carry out information fusion.
 
 Specifically, in our project, ASPP-L with expansion rate {6, 12, 18, 24} is applied, and two more 1 * 1 convolution performs feature fusion after Atrous convolution, and finally obtains the final output result by adding units. The structure is described as the figure shown below.
-![](pics/ASPP.webp)
+<div align=center><img src="pics/ASPP.webp" style="max-width: 60%; height: auto;" /></div>
+
 ## 4. Experiments
 
 ### 4.1 Datasets 
@@ -85,7 +87,30 @@ The GTA5 dataset contains 24966 synthetic images with pixel level semantic annot
 
 ### 4.3 Metrics 
 
-Two major metric methods are adopted for model evaluation. In semantic segmentation, there are four categories of pixel-level prediction, respectfully true positive (TP), true negative (TN), false positive (FP) and false negative (FN):
+Four major metrics are adopted for our model evaluation: **PA, MPA, MIoU, FWIoU**. Ahead of them, true positive(TP), true negative(TN), false positive(FP) and false negative(FN) are represented as $p_{ii}$, $p_{ij}$, $p_{ji}$, $p_{jj}$ for calculation.
+
+**PA(Pixle Accuracy)** calculates the ratio of correct-classified pixels, and is the simplest metric.
+
+$$
+PA = \frac{\sum^k_{i = 0}p_{ii}}{\sum^k_{i=0}\sum^k_{j=0}p_{ij}} 
+$$
+
+**MPA(Mean Pixle Accuracy)** is a improvement of PA, which calculates the ratio of correct-classified pixels for each class and then calculates the average accuracy of all classes.
+$$
+MPA = \frac{1}{k+1} \sum^k_{i = 0}\frac{p_{ii}}{\sum^k_{j=0}p_{ij}}
+$$
+
+**MIoU(Mean Intersection over Union)** is a standard metric for semantic segmentation, which calculates intersection of the ground truth and prediction over union of them for each class. Then, a mean value is calculated for evaluation.
+$$
+MIoU = \frac{1}{k+1} \sum^k_{i = 0}\frac{p_{ii}}{\sum^k_{j=0}p_{ij} + \sum^k_{j=0}p_{ji}-p_{ii}}
+$$
+
+**FWIoU(Frequency Weighted Intersection over Union)** is a improvement of MIoU, which sets the weights of each class based on frequency of their appearance.
+$$
+FWIoU = \frac{1}{\sum^k_{i=0}\sum^k_{j=0}p_{ij}} \sum^k_{i = 0}\frac{p_{ii}}{\sum^k_{j=0}p_{ij} + \sum^k_{j=0}p_{ji}-p_{ii}}
+$$
+
+All the four metrics listed above are considered and calculated for our model, and corresponding results will be shown in following subsection.
 
 ### 4.4 Experimental Design & Results
 
