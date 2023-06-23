@@ -120,11 +120,7 @@ All the four metrics listed above are considered and calculated for our model, a
 
 
 ## 5. Conclusion
-
-
-
-
-
+Our model can be easily applied for image segmentation and pixel classification. However, video type input seems tricky for us to apply DeepLab-v2 model. To handle that, we modified the demo code of model to achieve by-frame analysis for each decomposed picture, and convert the frames with segmentation result into a new mp4 file. The results are shown above at experiment section, which is satisfying and of comparatively high accuracy. Moreover, after several experiments, we found that as the expansion rate of void convolution increases, the effective weights in the convolution kernel become less and less, which leads to the loss of global image information. We have searched for sulutions and found that ASPP can be improved by adding a branch to improve the global view of the image, which includes BN and bilinear interpolation upsampling. These problems affect our model's performance to some extent, but can be solved after application of our improvements.
 
 
 ### Reference
