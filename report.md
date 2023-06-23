@@ -90,7 +90,6 @@ The GTA5 dataset contains 24966 synthetic images with pixel level semantic annot
 Four major metrics are adopted for our model evaluation: **PA, MPA, MIoU, FWIoU**. Ahead of them, true positive(TP), true negative(TN), false positive(FP) and false negative(FN) are represented as $p_{ii}$, $p_{ij}$, $p_{ji}$, $p_{jj}$ for calculation.
 
 **PA(Pixle Accuracy)** calculates the ratio of correct-classified pixels, and is the simplest metric.
-
 $$
 PA = \frac{\sum^k_{i = 0}p_{ii}}{\sum^k_{i=0}\sum^k_{j=0}p_{ij}} 
 $$
