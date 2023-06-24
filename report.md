@@ -26,7 +26,10 @@ Semantic segmentation has been an active area of research in computer vision, an
 2. **U-Net**: U-net is used to solve simple problem segmentation of small samples. It follows the same basic principles as FCN. U-Net is an encoder-decoder architecture designed for biomedical image segmentation. It includes skip connections between the encoder and decoder, enabling the model to capture both high-level semantic information and fine-grained details. U-Net has been widely adopted and extended for various segmentation tasks.
 3. **DeepLab**: DeepLab introduced dilated convolutions to capture multi-scale contextual information. It employs atrous spatial pyramid pooling (ASPP) to aggregate information at different scales and uses a fully connected conditional random field (CRF) for refining the segmentation results.
 
+
+
 ## 3. Method
+
 For our project, DeepLab-v2 model with a ResNet-101 backbone is selected for semantic segmentation. And in this section, the advantages of DeepLab and corresponding improvements of DeepLab-v2 will be explained in detail.
 
 ### 3.1 Advantages of DeepLab
@@ -160,7 +163,7 @@ We have done several experiments to show the performance of the models and the r
 
 | Target Domain                | PA    | MA    | MIoU  | FWIoU |
 | ---------------------------- | ----- | ----- | ----- | ----- |
-| cocostuff-10k-v1.1 test set  | 97.91 | 93.46 | 89.87 | 95.98 |
+| VOC2012 test set             | 97.91 | 93.46 | 89.87 | 95.98 |
 | self-sampled Sustech pic set |       |       |       |       |
 
 ![result_1](/home/jeffery/Desktop/Sustech/CV/Project/Sustech_CS308_Final_Project/pics/result_1.png)
@@ -179,7 +182,7 @@ We have done several experiments to show the performance of the models and the r
 
 | Target Domain                | PA    | MA    | MIoU  | FWIoU |
 | ---------------------------- | ----- | ----- | ----- | ----- |
-| cocostuff-10k-v1.1 test set  | 97.91 | 93.46 | 89.87 | 95.98 |
+| cocostuff-10k-v1.1 test set  | 65.83 | 45.66 | 34.81 | 51.26 |
 | self-sampled Sustech pic set |       |       |       |       |
 
 
@@ -188,7 +191,9 @@ We have done several experiments to show the performance of the models and the r
 
 #### 4.4.3 Segmenting videos/Run on webcams
 
-The models can also be applied to each frames of a video input or . Then a segmented video can be generated based on all segmented frames. 
+The models can also be applied to each frames of a video input or webcam input. Then a segmented video can be generated based on all segmented frames. 
+
+![video](/home/jeffery/Desktop/Sustech/CV/Project/Sustech_CS308_Final_Project/pics/video.png)
 
 
 
