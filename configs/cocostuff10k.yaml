@@ -4,7 +4,7 @@ EXP:
 
 DATASET:
     NAME: cocostuff10k
-    ROOT: /media/kazuto1011/Extra/cocostuff/cocostuff-10k-v1.1
+    ROOT: ./data/datasets/cocostuff/cocostuff-10k-v1.1
     LABELS: ./data/datasets/cocostuff/labels.txt
     N_CLASSES: 182
     IGNORE_LABEL: 255

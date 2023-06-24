@@ -160,8 +160,8 @@ def single(config_path, model_path, image_path, cuda, crf):
     labels = np.unique(labelmap)
 
     # Show result for each class
-    rows = np.floor(np.sqrt(len(labels) + 1))
-    cols = np.ceil((len(labels) + 1) / rows)
+    rows = int(np.floor(np.sqrt(len(labels) + 1)))
+    cols = int(np.ceil((len(labels) + 1) / rows))
 
     plt.figure(figsize=(10, 10))
     ax = plt.subplot(rows, cols, 1)
@@ -257,6 +257,119 @@ def live(config_path, model_path, cuda, crf, camera_id):
         cv2.imshow(window_name, raw_image)
         if cv2.waitKey(10) == ord("q"):
             break
+
+
+@main.command()
+@click.option(
+    "-c",
+    "--config-path",
+    type=click.File(),
+    required=True,
+    help="Dataset configuration file in YAML",
+)
+@click.option(
+    "-m",
+    "--model-path",
+    type=click.Path(exists=True),
+    required=True,
+    help="PyTorch model to be loaded",
+)
+@click.option(
+    "--cuda/--cpu", default=True, help="Enable CUDA if available [default: --cuda]"
+)
+@click.option("--crf", is_flag=True, show_default=True, help="CRF post-processing")
+@click.option(
+    "-vid",
+    "--video-path",
+    type=click.Path(exists=True),
+    required=True,
+    help="Video to be processed",
+)
+@click.option(
+    "-save",
+    "--save-path",
+    type=click.Path(exists=False),
+    required=True,
+    help="Path to save output",
+)
+def video(config_path, model_path, cuda, crf, video_path, save_path):
+    """
+    Inference from camera stream
+    """
+
+    # Setup
+    CONFIG = OmegaConf.load(config_path)
+    device = get_device(cuda)
+    torch.set_grad_enabled(False)
+    torch.backends.cudnn.benchmark = True
+
+    classes = get_classtable(CONFIG)
+    postprocessor = setup_postprocessor(CONFIG) if crf else None
+
+    model = eval(CONFIG.MODEL.NAME)(n_classes=CONFIG.DATASET.N_CLASSES)
+    state_dict = torch.load(model_path, map_location=lambda storage, loc: storage)
+    model.load_state_dict(state_dict)
+    model.eval()
+    model.to(device)
+    print("Model:", CONFIG.MODEL.NAME)
+
+    # video stream
+    vidcap = cv2.VideoCapture(video_path)
+
+    fps = vidcap.get(cv2.CAP_PROP_FPS)
+    fps = int(fps)
+    print('Video fps:', fps)
+    width = int(vidcap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(vidcap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    print('Frame size:', (width, height))
+
+    def colorize(labelmap):
+        # Assign a unique color to each label
+        labelmap = labelmap.astype(np.float32) / CONFIG.DATASET.N_CLASSES
+        colormap = cm.jet_r(labelmap)[..., :-1] * 255.0
+        return np.uint8(colormap)
+
+    def mouse_event(event, x, y, flags, labelmap):
+        # Show a class name of a mouse-overed pixel
+        label = labelmap[y, x]
+        name = classes[label]
+        print(name)
+
+    window_name = "{} + {}".format(CONFIG.MODEL.NAME, CONFIG.DATASET.NAME)
+    cv2.namedWindow(window_name, cv2.WINDOW_AUTOSIZE)
+
+    success = True
+
+    im_arr = []
+    success, frame = vidcap.read()
+
+    while success:
+        
+        image, raw_image = preprocessing(frame, device, CONFIG)
+
+        labelmap = inference(model, image, raw_image, postprocessor)
+        colormap = colorize(labelmap)
+        
+        # Register mouse callback function
+        cv2.setMouseCallback(window_name, mouse_event, labelmap)
+
+        # Overlay prediction
+        cv2.addWeighted(colormap, 0.5, raw_image, 0.5, 0.0, raw_image)
+
+        # Quit by pressing "q" key
+        cv2.imshow(window_name, raw_image)
+        im_arr.append(raw_image)
+        # print(raw_image.shape)
+        success, frame = vidcap.read()
+        if cv2.waitKey(10) == 27:
+            break
+
+    out = cv2.VideoWriter(save_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (513, 289))
+    for i in range(len(im_arr)):
+        out.write(im_arr[i])
+    out.release()
+
+    print('Output saved successfully!')
 
 
 if __name__ == "__main__":
