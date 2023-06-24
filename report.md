@@ -44,6 +44,7 @@ DeepLab model is proposed to handle three major problems of image segmentation u
 **ResNet-101**: In DeepLab-v1, VGG16 acted as backbone, which has limited performance as the network grows deeper, or in other words, Degradation problem$^{[4]}$. This common problem generally means when the depth of the network increases, the accuracy of the network becomes saturated or even decreases, as the figure shown below. 
 ![](pics/2056.png)
 Therefore, Residual Learning is invoked to solve the problem. Briefly speaking, the reason for Residual Learning is that learning residuals is easier than learning raw features directly. When the residual is 0, then the stack layer only does the identity mapping, at least the network performance will not deteriorate, in fact, the residual will not be 0, which will also make the stack layer learn new features based on the input features, so as to have better performance. Residual Learning uses a kind of trick called "short-circuit", as the figure shown below$^{[4]}$.
+
 <div align=center><img src="pics/DL.png" style="max-width: 60%; height: auto;" /></div>
 The ResNet network is a reference to the VGG19 network, modified on its basis, and adds Residual Learning units through the short-circuit mechanism to increase the possible depth of network, as the figure shown below.
 <div align=center><img src="pics/ResNet.png" style="max-width: 60%; height: auto;" /></div>
@@ -55,14 +56,6 @@ We can compare the performance of ResNet to common network, as the figure shown 
 
 Specifically, in our project, ASPP-L with expansion rate {6, 12, 18, 24} is applied, and two more 1 * 1 convolution performs feature fusion after Atrous convolution, and finally obtains the final output result by adding units. The structure is described as the figure shown below.
 <div align=center><img src="pics/ASPP.png" style="max-width: 60%; height: auto;" /></div>
-We can compare the preformance of ResNet to common network, as the figure shown below. It can be seen that the common network is degraded as the depth increases, while ResNet solves the degradation problem well.
-<div align=center><img src="pics/1834.webp" style="max-width: 60%; height: auto;" /></div>
-
-**ASPP**: Also, Deeplab v2 improves on v1 with the introduction of ASPP(Atrous Spatial Pyramid Pooling). We noticed that Deeplab v1 did not fuse information between different layers after expanding the receptive field using porous convolution. ASPP layer is designed to fuse different levels of semantic information: porous convolution with different expansion rates is selected to process feature maps$^{[1]}$. Due to different receptive fields, the information levels obtained are also different. ASPP layer concat these different levels of feature maps to carry out information fusion.
-
-Specifically, in our project, ASPP-L with expansion rate {6, 12, 18, 24} is applied, and two more 1 * 1 convolution performs feature fusion after Atrous convolution, and finally obtains the final output result by adding units$^{[1]}$. The structure is described as the figure shown below.
-<div align=center><img src="pics/ASPP.webp" style="max-width: 60%; height: auto;" /></div>
-
 ## 4. Experiments
 
 ### 4.1 Datasets 
