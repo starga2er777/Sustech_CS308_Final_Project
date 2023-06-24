@@ -5,3 +5,4 @@
 *.prototxt
 *.zip
 datasets/voc12/VOCdevkit
+datasets/cocostuff/cocostuff-10k-v1.1
