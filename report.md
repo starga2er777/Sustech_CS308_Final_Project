@@ -1,4 +1,6 @@
-# Semantic Segmentation based on DeepLab-v2 with a ResNet-101 backbone
+# CS308 Final Project Report
+
+## Semantic Segmentation based on DeepLab-v2 with a ResNet-101 backbone
 
 Yuhang Wang (12012208)
 
@@ -8,7 +10,7 @@ Zhangjie Chen (12012524)
 
 ## 1. Introduction
 
-![intro](/home/jeffery/Desktop/Sustech/CV/Project/Sustech_CS308_Final_Project/pics/intro.png)
+![intro](pics/intro.png)
 
 Semantic segmentation is a computer vision task that aims to assign semantic labels to each pixel in an image, effectively dividing the image into different regions corresponding to different objects or classes. The goal is to achieve a fine-grained understanding of the image by assigning meaningful labels to different regions, such as "person," "car," "building," etc.
 
@@ -164,36 +166,52 @@ We have done several experiments to show the performance of the models and the r
 | Target Domain                | PA    | MA    | MIoU  | FWIoU |
 | ---------------------------- | ----- | ----- | ----- | ----- |
 | VOC2012 test set             | 97.91 | 93.46 | 89.87 | 95.98 |
-| self-sampled Sustech pic set |       |       |       |       |
+| self-sampled Sustech pic set | 81.75 | 76.88 | 69.15 | 82.09 |
 
-![result_1](/home/jeffery/Desktop/Sustech/CV/Project/Sustech_CS308_Final_Project/pics/result_1.png)
+![result_1](pics/result_1.png)
 
 *voc12.pth performance on VOC dataset*
 
-![voc_class_acc-1](/home/jeffery/Desktop/Sustech/CV/Project/Sustech_CS308_Final_Project/pics/voc_class_acc-1.png)
+<div align=center><img src="pics/voc_class_acc-1.png" style="max-width: 60%; height: auto;" /></div>
 
 *voc12.pth on VOC dataset: IoU of each semantic class*
 
-![result_2](/home/jeffery/Desktop/Sustech/CV/Project/Sustech_CS308_Final_Project/pics/result_2.png)
+![result_2](pics/result_2.png)
 
 *voc12.pth performance on Sustech dataset*
+
+<div align=center><img src="pics/voc_class_acc-2.png" style="max-width: 60%; height: auto;" /></div>
+
+*voc12.pth on Sustech dataset: IoU of each semantic class*
 
 #### coco10k.pth
 
 | Target Domain                | PA    | MA    | MIoU  | FWIoU |
 | ---------------------------- | ----- | ----- | ----- | ----- |
 | cocostuff-10k-v1.1 test set  | 65.83 | 45.66 | 34.81 | 51.26 |
-| self-sampled Sustech pic set |       |       |       |       |
+| self-sampled Sustech pic set | 50.75 | 31.43 | 22.74 | 36.83 |
 
+![result_3](pics/result_3.png)
 
+*coco10k.pth performance on cocostuff-10k dataset*
 
+<div align=center><img src="pics/coco_class_acc-1.png" style="max-width: 60%; height: auto;" /></div>
 
+*coco10k.pth on coco10k dataset: IoU of each semantic class*
 
-#### 4.4.3 Segmenting videos/Run on webcams
+![result_4](pics/result_4.png)
+
+*coco10k.pth performance on Sustech dataset*
+
+<div align=center><img src="pics/coco_class_acc-2.png" style="max-width: 60%; height: auto;" /></div>
+
+*coco10k.pth on Sustech dataset: IoU of each semantic class*
+
+#### 4.4.3 Segmenting videos/Running on webcams
 
 The models can also be applied to each frames of a video input or webcam input. Then a segmented video can be generated based on all segmented frames. 
 
-![video](/home/jeffery/Desktop/Sustech/CV/Project/Sustech_CS308_Final_Project/pics/video.png)
+<div align=center><img src="pics/video.png" style="max-width: 70%; height: auto;" /></div>
 
 
 
@@ -217,13 +235,13 @@ Our model can be easily applied for image segmentation and pixel classification.
 
 ## Contributions
 
-Yuhang Wang (12012208): 
+* Yuhang Wang (12012208): 30%
 
-Jianlin Li (12012221): 
+* Jianlin Li (12012221): 35%
 
-Zhangjie Chen (12012524):
+* Zhangjie Chen (12012524): 35%
 
 
 
-##### Github repo: https://github.com/starga2er777/Sustech_CS308_Final_Project
+Github repo: https://github.com/starga2er777/Sustech_CS308_Final_Project
 
